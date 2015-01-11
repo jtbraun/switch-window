@@ -190,11 +190,12 @@ ask user which window to delete"
           (apply-to-window-index 'delete-window index "")))))
 
 ;;;###autoload
-(defun switch-window ()
+(defun switch-window (prefix)
   "Display an overlay in each window showing a unique key, then
 ask user for the window where move to"
-  (interactive)
-  (if (<= (length (window-list)) switch-window-threshold)
+  (interactive "P")
+  (if (or prefix
+          (<= (length (window-list)) switch-window-threshold))
       (call-interactively 'other-window)
     (progn
       (let ((index (prompt-for-selected-window "Move to window: "))
